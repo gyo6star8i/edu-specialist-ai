@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI·디지털 기반 교육혁신 교육전문직원 역량강화 연수 2기 · AI를 활용한 교육전문직원의 교육혁신 실습 페이지">
+<title>AI를 활용한 교육전문직원의 교육혁신 · 실습</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 지난 실습 페이지(smart-work-ai)와 같은 틀 — 상단 고정 단계 칩, 한 화면에 실습 하나, 초록 강조 */
+:root{
+  --bg:#f4f6f5; --surface:#ffffff; --ink:#17302f; --muted:#5b6b69; --line:#d6dedc;
+  --accent:#1f5f5b; --accent-soft:#e2eeec; --stamp:#b8402c; --stamp-soft:#f8e7e3;
+  --code:#eef2f1; --ok:#2f7a45; --warn:#9a6a06;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101a19; --surface:#172422; --ink:#e3ecea; --muted:#9aaba8; --line:#2c3d3a;
+  --accent:#7cc4bc; --accent-soft:#1d3532; --stamp:#ee8a73; --stamp-soft:#3a2420;
+  --code:#1d2c2a; --ok:#7cc98e; --warn:#e2b64d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101a19; --surface:#172422; --ink:#e3ecea; --muted:#9aaba8; --line:#2c3d3a;
+  --accent:#7cc4bc; --accent-soft:#1d3532; --stamp:#ee8a73; --stamp-soft:#3a2420;
+  --code:#1d2c2a; --ok:#7cc98e; --warn:#e2b64d; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{padding-block:10px 0}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.brand b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand small{color:var(--muted);font-size:12px}
+.apps{display:flex;gap:6px;flex-wrap:wrap}
+.apps a{font-size:12px;font-weight:700;text-decoration:none;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;white-space:nowrap}
+nav.steps{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav.steps::-webkit-scrollbar{display:none}
+nav.steps button{flex:0 0 auto;font:inherit;font-size:13px;font-weight:500;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+nav.steps button[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface);font-weight:700}
+main .wrap{padding-block:20px calc(48px + env(safe-area-inset-bottom,0px))}
+section{display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+h1{font-size:26px;line-height:1.3;margin:0;text-wrap:balance;letter-spacing:-.02em}
+h2{font-size:22px;line-height:1.35;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h3{font-size:17px;margin:0;line-height:1.4}
+p{margin:0}
+a{color:var(--accent)}
+.lead{color:var(--muted)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.goal{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:15px}
+.goal b{color:var(--accent);flex-shrink:0}
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.flow li{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.flow li:first-child{border-top:0}
+.flow time{font-family:var(--f-num);font-size:13px;color:var(--accent);padding-top:2px}
+.flow span{font-size:13px;color:var(--muted);display:block}
+.prompt{position:relative;background:var(--code);border-radius:10px;padding:14px 14px 60px;font-size:15px;line-height:1.75;white-space:pre-wrap;margin:0;font-family:var(--f-body);min-width:0;overflow-wrap:anywhere}
+.prompt .blank{background:var(--stamp-soft);color:var(--stamp);border-radius:4px;padding:0 3px;font-weight:700}
+.copy{position:absolute;right:10px;bottom:10px;font:inherit;font-size:15px;font-weight:700;background:var(--accent);color:var(--surface);border:0;border-radius:8px;padding:9px 18px;cursor:pointer;min-height:40px}
+.copy.done{background:var(--ok)}
+.copy.alt{right:auto;left:10px;background:var(--surface);color:var(--accent);border:1px solid var(--accent)}
+.label{font-size:13px;font-weight:700;color:var(--muted)}
+.followups{display:flex;flex-direction:column;gap:8px}
+.chip-copy{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;font:inherit;font-size:14px;background:var(--surface);color:var(--ink);border:1px dashed var(--accent);border-radius:8px;padding:10px 12px;cursor:pointer;text-decoration:none}
+.chip-copy em{font-style:normal;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0}
+.chip-copy.done em{color:var(--ok)}
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.check li{display:flex;gap:10px}
+.check li::before{content:"";flex:0 0 18px;height:18px;margin-top:3px;border:2px solid var(--stamp);border-radius:50%}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.warn{font-size:14px;background:var(--stamp-soft);color:var(--ink);border-radius:8px;padding:10px 12px}
+.warn b{color:var(--stamp)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:14px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.tabs button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.pager button{font:inherit;font-size:15px;font-weight:700;color:var(--accent);background:none;border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;flex:1}
+.pager button:last-child{text-align:right}
+.pager button[disabled]{visibility:hidden}
+.padlet{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface)}
+.padlet a{font-weight:700;color:var(--surface);background:var(--stamp);text-decoration:none;border-radius:8px;padding:8px 14px;white-space:nowrap}
+.padlet .soon{font-size:13px;color:var(--muted);white-space:nowrap}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rules div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 10px;display:flex;flex-direction:column;gap:4px}
+.rules b{font-size:15px;color:var(--accent)}
+.rules span{font-size:13px;color:var(--muted);line-height:1.45}
+.rules .hl{background:var(--accent-soft);border-color:var(--accent)}
+.rules .gray b{color:var(--muted)}
+.rules ul{margin:0;padding-left:16px;font-size:14px;line-height:1.6}
+.ex{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface)}
+.ex th,.ex td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+.ex th{font-size:12px;color:var(--muted);font-weight:700}
+.ex td:first-child{font-weight:700;white-space:nowrap}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+/* 요청문 만들기 */
+.form{display:grid;gap:10px}
+.form label{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:start}
+.form label > b{font-size:14px;color:var(--accent);padding-top:9px}
+.form label small{display:block;font-weight:500;color:var(--muted);font-size:11px;line-height:1.3}
+.form input,.form textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--ink)}
+.form textarea{min-height:64px;resize:vertical}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;font-weight:700;border-radius:8px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--surface);color:var(--accent)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn.done{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+/* 단계 */
+.steps-list{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:8px}
+.steps-list li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.steps-list li::before{content:counter(s);display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--surface);font-weight:700;font-size:14px}
+.steps-list li>div>b{display:block}
+.steps-list li>div>span{display:block;font-size:14px;color:var(--muted)}
+kbd,code{font-family:var(--f-num);font-size:.88em;background:var(--code);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+.url{font-family:var(--f-num);font-size:15px;background:var(--code);border-radius:8px;padding:10px 12px;word-break:break-all}
+.url .blank{color:var(--stamp);font-weight:700}
+details{border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+details summary{cursor:pointer;padding:12px 14px;font-weight:700;font-size:15px}
+details .in{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.trouble{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.trouble div{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--surface);display:flex;flex-direction:column;gap:4px;font-size:14px}
+.trouble b{color:var(--accent)}
+.trouble span{color:var(--muted);font-size:12px}
+.trouble p{margin:0}
+:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+@media (max-width:560px){.rules,.trouble{grid-template-columns:1fr}.form label{grid-template-columns:1fr;gap:4px}.form label > b{padding-top:0}}
+@media (prefers-reduced-motion:no-preference){section:not([hidden]){animation:in .25s ease-out}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div><b>AI를 활용한 교육전문직원의 교육혁신</b><br><small>AI·디지털 기반 교육혁신 교육전문직원 역량강화 연수 2기 · 실습 페이지</small></div>
+      <div class="apps">
+        <a href="https://claude.ai/new" target="_blank" rel="noopener">Claude ↗</a>
+        <a href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini ↗</a>
+        <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT ↗</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+    <nav class="steps" aria-label="실습 단계" id="nav"></nav>
+  </div>
+</header>
+
+<main><div class="wrap">
+
+<!-- 시작 -->
+<section id="s-start" data-name="시작">
+  <div class="eyebrow">2026. 11. 5.(목) · 구미초등학교 교감 Ph.D. 이희명</div>
+  <h1>말로 설명하고, AI가 만들고,<br>주소로 공유합니다</h1>
+  <p class="lead">오늘은 노트북으로 내 업무 도구 하나를 직접 만들어 GitHub에 올립니다. 각 실습의 <b>복사</b> 버튼을 누르고 AI 채팅창에 붙여넣은 뒤, 빨간 【 】 부분만 내 업무에 맞게 바꾸면 됩니다.</p>
+  <div class="goal"><b>오늘의 결과물</b><span>나가실 때 손에 남는 것: <b>내 업무 도구의 인터넷 주소 하나</b></span></div>
+  <div class="block">
+    <h3>오늘의 흐름</h3>
+    <ol class="flow">
+      <li><time>1교시</time><div>바이브코딩 사례<span>묻는 AI에서 일하는 AI로 · 강사가 직접 만든 업무 도구 · 사례로 보는 세 단계</span></div></li>
+      <li><time></time><div>내 업무에서 과제 찾기<span>패들렛 ① · 무엇을 도구로 만들까</span></div></li>
+      <li><time></time><div>실습 1 · 나의 도구 요청문 쓰기 <span>대상·입력·출력·규칙 네 칸 · 15분</span></div></li>
+      <li><time>휴식</time><div>10분<span>GitHub 로그인, AI 새 채팅 열어 두기</span></div></li>
+      <li><time>2교시</time><div>실습 2 · 나의 AI 도구 만들기<span>index.html 파일 하나로 · 써 보고 고치기 세 번 · 25분</span></div></li>
+      <li><time></time><div>실습 3 · GitHub Pages로 배포<span>저장소 만들기 → 올리기 → 주소 받기 · 15분</span></div></li>
+      <li><time></time><div>갤러리와 정리<span>패들렛 ③ · 30초 시연 · 공개 도구 안전 3원칙</span></div></li>
+    </ol>
+  </div>
+  <div class="rules">
+    <div><b>① 설명하기</b><span>내 업무를 네 칸 요청문으로</span></div>
+    <div><b>② 만들기</b><span>AI에게 index.html 파일 하나로</span></div>
+    <div><b>③ 배포하기</b><span>GitHub Pages에 올려 주소 받기</span></div>
+  </div>
+  <p class="note">AI는 Claude·Gemini·ChatGPT 중 익숙한 것 하나면 됩니다. 무료 계정은 사용량 제한이 있으니 두 서비스를 열어 두면 좋습니다. 실습 2는 결과를 바로 미리 볼 수 있는 Claude나 Gemini(Canvas)가 편합니다.</p>
+</section>
+
+<!-- 과제 찾기 -->
+<section id="s-find" data-name="과제 찾기" hidden>
+  <div class="eyebrow">1교시 · 내 업무에서 과제 찾기</div>
+  <h2>지침이 곧 설계도</h2>
+  <p class="lead">“이 기준이면 이렇게 판정해요.” 지침과 기준표를 가장 잘 아는 사람이 도구의 설계자가 됩니다.</p>
+  <div class="padlet" data-padlet="1"><div><b>패들렛 ①</b><br><small class="lead">지금 AI를 업무 어디에 쓰고 있나요? / 매주·매달 반복되는 업무는?</small></div></div>
+  <div class="block">
+    <h3>도구로 만들기 좋은 일</h3>
+    <ul class="check">
+      <li><span><b>순서가 정해진 일</b> — 공문 수합 · 결과 집계 · 보고</span></li>
+      <li><span><b>기준이 정해진 일</b> — 자격 · 만기 · 심사 점수 판정</span></li>
+      <li><span><b>답이 비슷한 일</b> — 학교 문의 · 지침 Q&amp;A 안내</span></li>
+    </ul>
+  </div>
+  <h3>무엇을 도구로 만들까</h3>
+  <div class="rules">
+    <div class="hl"><b>도구로 만든다</b><ul><li>공문 수합 결과 집계</li><li>심사 점수 평균·순위</li><li>일정 D-day 역산</li></ul></div>
+    <div><b>AI와 대화로</b><ul><li>공문·보고서 초안</li><li>계획서 검토 의견</li><li>연수 자료 다듬기</li></ul></div>
+    <div class="gray"><b>사람이 직접</b><ul><li>정책 협의·조정</li><li>학교 컨설팅 판단</li><li>민감한 민원 대응</li></ul></div>
+  </div>
+  <p class="note">자주 하고 기준이 분명한 일부터 시작하세요. 판단이 필요한 일은 도구보다 대화창이 빠릅니다.</p>
+  <h3>교육전문직원 업무, 이렇게 도구로</h3>
+  <div class="tblwrap"><table class="ex">
+    <thead><tr><th>업무 장면</th><th>만들 수 있는 도구</th><th>넣는 것 → 나오는 것</th></tr></thead>
+    <tbody>
+      <tr><td>공문 수합 결과 정리</td><td>학교별 제출 현황 집계기</td><td>학교별 엑셀 붙여넣기 → 합계·미제출 학교</td></tr>
+      <tr><td>학교 문의 응대</td><td>지침 Q&amp;A 검색 안내 페이지</td><td>질문 키워드 → 해당 지침 항목</td></tr>
+      <tr><td>공모·연구학교 심사</td><td>심사 점수 집계표</td><td>위원별 점수 → 평균·순위</td></tr>
+      <tr><td>연수·행사 운영</td><td>D-day 계산기 · 조 편성기</td><td>행사일·명단 → 준비 일정·조 편성표</td></tr>
+      <tr><td>설문·연구 분석</td><td>설문 결과 시각화 페이지</td><td>CSV 올리기 → 문항별 그래프</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 실습 1 -->
+<section id="s-1" data-name="실습 1" hidden>
+  <div class="eyebrow">실습 1 · 15분</div>
+  <h2>나의 도구 요청문 쓰기</h2>
+  <div class="goal"><b>목표</b><span>네 칸(대상·입력·출력·규칙)을 채워 내 업무 도구 요청문 한 단락을 완성합니다.</span></div>
+  <div class="block">
+    <h3>내 요청문 만들기</h3>
+    <p class="note">칸을 채우면 아래에 요청문이 만들어집니다. 쓴 내용은 이 노트북 브라우저에만 저장되고, 실습 2에서 그대로 불러옵니다.</p>
+    <div class="form" id="form">
+      <label><b>도구 이름</b><input id="f-what" placeholder="예) 학교별 제출 자료를 붙여넣으면 집계하는 웹페이지"></label>
+      <label><b>대상<small>누가 쓰는지</small></b><input id="f-who" placeholder="예) 나와 담당 학교 교무부장"></label>
+      <label><b>입력<small>무엇을 넣는지</small></b><textarea id="f-in" placeholder="예) 학교명·학생 수·참여 인원 표 붙여넣기"></textarea></label>
+      <label><b>출력<small>무엇이 나오는지</small></b><textarea id="f-out" placeholder="예) 학교별 합계표와 미제출 학교 목록"></textarea></label>
+      <label><b>규칙<small>판단 기준</small></b><textarea id="f-rule" placeholder="예) 명단에 있는데 자료가 없으면 ‘미제출’ — 지침의 기준을 그대로"></textarea></label>
+    </div>
+  </div>
+  <pre class="prompt" id="myReq"></pre>
+  <div class="label">내 업무가 떠오르지 않으면 예시 중 하나로</div>
+  <div class="tabs" role="tablist" id="t1">
+    <button role="tab" aria-selected="true" data-k="a">A. 제출 현황 집계기</button>
+    <button role="tab" aria-selected="false" data-k="b">B. 심사 점수 집계표</button>
+    <button role="tab" aria-selected="false" data-k="c">C. 행사 D-day 계산기</button>
+  </div>
+  <div data-pane="a"><pre class="prompt" data-ex="a">경북교육청 장학사의 업무 도구를 만들어줘.
+학교별 제출 자료를 붙여넣으면 집계하는 웹페이지야.
+- 대상: <span class="blank">【나와 담당 학교 교무부장】</span>
+- 입력: <span class="blank">【학교명·학생 수·참여 인원 표 붙여넣기】</span>
+- 출력: <span class="blank">【학교별 합계표와 미제출 학교 목록】</span>
+- 규칙: <span class="blank">【명단에 있는데 자료가 없으면 ‘미제출’】</span>
+예시 데이터 5줄을 넣어 바로 시험할 수 있게 해줘.</pre></div>
+  <div data-pane="b" hidden><pre class="prompt" data-ex="b">경북교육청 장학사의 업무 도구를 만들어줘.
+공모사업 심사위원 점수를 넣으면 평균과 순위를 내는 웹페이지야.
+- 대상: <span class="blank">【나와 심사위원 5명】</span>
+- 입력: <span class="blank">【학교명과 심사위원별 점수(100점 만점) 표 붙여넣기】</span>
+- 출력: <span class="blank">【학교별 평균 점수와 순위표, 동점 학교 표시】</span>
+- 규칙: <span class="blank">【위원별 최고점과 최저점을 하나씩 빼고 평균】</span>
+예시 데이터 5줄을 넣어 바로 시험할 수 있게 해줘.</pre></div>
+  <div data-pane="c" hidden><pre class="prompt" data-ex="c">경북교육청 장학사의 업무 도구를 만들어줘.
+행사 날짜를 넣으면 준비 일정을 거꾸로 계산하는 웹페이지야.
+- 대상: <span class="blank">【나와 행사 담당 주무관】</span>
+- 입력: <span class="blank">【행사 날짜와 준비 항목별 ‘며칠 전까지’】</span>
+- 출력: <span class="blank">【항목별 마감 날짜와 오늘 기준 남은 날 수】</span>
+- 규칙: <span class="blank">【마감일이 주말이면 바로 앞 금요일로 당기기】</span>
+예시 데이터 5줄을 넣어 바로 시험할 수 있게 해줘.</pre></div>
+  <button class="btn" id="useEx" type="button">이 예시를 내 요청문 칸에 채우기</button>
+  <div class="block"><h3>옆 사람과 바꿔 읽기</h3>
+    <ul class="check"><li>이 요청문만 보고 도구를 만들 수 있나요?</li><li>규칙 칸에 지침의 기준이 그대로 들어갔나요? 규칙을 모르면 AI는 그럴듯하게 지어냅니다.</li><li>실제 학교명·교원 이름 대신 가상 데이터로 썼나요?</li></ul>
+  </div>
+</section>
+
+<!-- 휴식 -->
+<section id="s-break" data-name="휴식" hidden>
+  <div class="eyebrow">1교시 정리 · 휴식 10분</div>
+  <h2>이번에는 노트북으로 만듭니다</h2>
+  <div class="rules">
+    <div><b>사례</b><span>말로 설명하면 도구가 된다</span></div>
+    <div><b>과제</b><span>자주 하고 기준이 분명한 일</span></div>
+    <div><b>요청</b><span>대상·입력·출력·규칙 네 칸</span></div>
+  </div>
+  <div class="block"><h3>쉬는 시간에 해 둘 것</h3>
+    <ul class="check"><li>GitHub에 로그인해 두기 (계정이 없으면 아래에서 가입)</li><li>Claude·Gemini·ChatGPT 중 하나에서 새 채팅 열어 두기</li><li>실습 1의 내 요청문이 저장되어 있는지 확인</li></ul>
+  </div>
+  <a class="chip-copy" href="https://github.com/signup" target="_blank" rel="noopener"><span>GitHub 가입하기 (이메일 인증까지 2~3분)</span><em>↗</em></a>
+  <a class="chip-copy" href="https://github.com/login" target="_blank" rel="noopener"><span>GitHub 로그인</span><em>↗</em></a>
+  <p class="note">가입이 늦어지면 옆 사람 계정으로 함께 배포해도 됩니다. 아이디는 영문 소문자로 짧게 정하면 주소가 깔끔해집니다.</p>
+</section>
+
+<!-- 실습 2 -->
+<section id="s-2" data-name="실습 2" hidden>
+  <div class="eyebrow">실습 2 · 25분</div>
+  <h2>나의 AI 도구 만들기</h2>
+  <div class="goal"><b>목표</b><span>요청문으로 index.html 파일 하나를 만들고, 써 보면서 세 번 고칩니다.</span></div>
+  <ol class="steps-list">
+    <li><div><b>새 채팅에 붙여넣기</b><span>아래 프롬프트를 복사합니다. 【 】 자리에 실습 1의 요청문을 넣으세요. <b>내 요청문 넣어 복사</b>를 누르면 자동으로 들어갑니다.</span></div></li>
+    <li><div><b>미리보기로 써 보기</b><span>Claude는 오른쪽 화면, Gemini·ChatGPT는 Canvas(캔버스)의 미리보기에서 바로 시험합니다.</span></div></li>
+    <li><div><b>세 번 고치기</b><span>기능 → 오류 → 디자인 순서로 이어서 요청합니다.</span></div></li>
+  </ol>
+  <pre class="prompt" id="mainPrompt">너는 경상북도교육청 교육전문직원의 업무 도구를 만드는 개발자야. 아래 요청문대로 동작하는 웹페이지를 index.html 파일 하나로 만들어줘.
+
+<span class="blank" id="slot">【실습 1에서 쓴 요청문 붙여넣기】</span>
+
+조건: HTML·CSS·JavaScript를 한 파일에 담고, 서버나 로그인 없이 브라우저에서만 동작하게 해줘.
+입력한 데이터는 어디에도 저장하거나 전송하지 마. 화면은 한글로, 맨 위에 사용법 안내를 넣어줘.
+예시 데이터를 넣어 바로 시험할 수 있게 하고, 완성된 코드 전체를 한 번에 보여줘.</pre>
+  <div class="label">이어서 요청하기 (같은 채팅에)</div>
+  <div class="followups">
+    <button class="chip-copy" data-text="결과를 엑셀에 붙여넣을 수 있게 '표로 복사' 버튼을 추가해줘."><span><b>기능</b> · 결과를 엑셀에 붙여넣을 수 있게 ‘표로 복사’ 버튼을 추가해줘.</span><em>복사</em></button>
+    <button class="chip-copy" data-text="합계가 틀려. [무엇을 넣었더니] [무엇이 나왔어]. 원인을 찾아서 고쳐줘."><span><b>오류</b> · 합계가 틀려. [무엇을 넣었더니] [무엇이 나왔어]. 원인을 찾아서 고쳐줘.</span><em>복사</em></button>
+    <button class="chip-copy" data-text="경북교육청 느낌의 남색 계열로 바꾸고, 제목은 크게 해줘."><span><b>디자인</b> · 경북교육청 느낌의 남색 계열로 바꾸고, 제목은 크게 해줘.</span><em>복사</em></button>
+    <button class="chip-copy" data-text="코드가 중간에 끊겼어. index.html 코드 전체를 처음부터 끝까지 다시 보여줘."><span><b>막혔을 때</b> · 코드가 중간에 끊겼어. index.html 코드 전체를 처음부터 끝까지 다시 보여줘.</span><em>복사</em></button>
+  </div>
+  <p class="note">오류는 “무엇을 넣었더니 무엇이 나왔다”처럼 <b>보이는 그대로</b> 말하는 것이 가장 빠릅니다.</p>
+  <details>
+    <summary>완성한 코드를 index.html 파일로 저장하기</summary>
+    <div class="in">
+      <p><b>Claude</b> — 결과 화면 오른쪽 위의 다운로드(또는 복사) 버튼으로 받습니다. 받은 파일 이름을 <code>index.html</code>로 바꿉니다.</p>
+      <p><b>Gemini · ChatGPT</b> — Canvas의 코드 보기에서 전체를 복사한 뒤, 아래 방법으로 파일을 만듭니다.</p>
+      <p><b>Windows</b> — 메모장에 붙여넣기 → <kbd>다른 이름으로 저장</kbd> → 파일 형식 <b>모든 파일</b>, 인코딩 <b>UTF-8</b>, 이름 <code>index.html</code></p>
+      <p><b>Mac</b> — 텍스트 편집기에서 <kbd>포맷 → 일반 텍스트로 만들기</kbd> 후 붙여넣기 → 이름 <code>index.html</code>로 저장 (‘.txt 추가’ 해제)</p>
+      <p>저장한 파일을 더블클릭해서 브라우저에서 열리면 성공입니다.</p>
+    </div>
+  </details>
+  <div class="block"><h3>만든 도구, 이것만은 확인</h3>
+    <ul class="check"><li><span><b>계산 규칙</b> — 지침의 기준과 계산 결과가 맞나요?</span></li><li><span><b>끝자리 값</b> — 기준일 당일·빈칸·0 같은 경계의 값도 넣어 봤나요?</span></li><li><span><b>데이터 흐름</b> — 입력한 자료가 화면 밖으로 나가지 않나요?</span></li></ul>
+  </div>
+  <div class="warn"><b>도구의 결과는 판정이 아니라 참고입니다.</b> 최종 판단은 지침과 담당자가 합니다.</div>
+</section>
+
+<!-- 실습 3 -->
+<section id="s-3" data-name="실습 3" hidden>
+  <div class="eyebrow">실습 3 · 15분</div>
+  <h2>GitHub Pages로 배포</h2>
+  <div class="goal"><b>목표</b><span>설치 없이 github.com 웹 화면에서 index.html을 올리고, 누구나 열 수 있는 주소를 받습니다.</span></div>
+  <div class="rules">
+    <div><b>저장소</b><span>도구 하나를 담는 폴더 · 도구 하나 = 저장소 하나</span></div>
+    <div><b>커밋</b><span>저장할 때마다 남는 이력 · 이전으로 되돌릴 수 있음</span></div>
+    <div><b>페이지(Pages)</b><span>저장소를 인터넷 주소로 열어 주는 기능 · 공개 저장소는 무료</span></div>
+  </div>
+  <ol class="steps-list">
+    <li><div><b>New repository</b><span>github.com 오른쪽 위 <kbd>+</kbd> → <kbd>New repository</kbd> → 이름 입력 → <b>Public</b> → <kbd>Create repository</kbd></span></div></li>
+    <li><div><b>Add file › Upload files</b><span>새 저장소 화면의 <kbd>uploading an existing file</kbd> 링크(또는 <kbd>Add file</kbd> → <kbd>Upload files</kbd>)를 누릅니다.</span></div></li>
+    <li><div><b>index.html 올리고 Commit</b><span>파일을 끌어다 놓고 아래 <kbd>Commit changes</kbd>를 누릅니다.</span></div></li>
+    <li><div><b>Settings › Pages › main</b><span><kbd>Settings</kbd> → 왼쪽 <kbd>Pages</kbd> → Source: <b>Deploy from a branch</b> → Branch: <b>main</b> / <b>(root)</b> → <kbd>Save</kbd></span></div></li>
+    <li><div><b>1~2분 뒤 주소 접속</b><span>Pages 화면 위쪽에 주소가 나타납니다. 아래에서 내 주소를 미리 만들어 볼 수 있습니다.</span></div></li>
+  </ol>
+  <div class="block">
+    <h3>내 도구 주소</h3>
+    <div class="form">
+      <label><b>아이디</b><input id="g-id" placeholder="GitHub 아이디" autocapitalize="off" spellcheck="false"></label>
+      <label><b>저장소</b><input id="g-repo" placeholder="예) survey-counter" autocapitalize="off" spellcheck="false"></label>
+    </div>
+    <div class="url" id="g-url"></div>
+    <p class="note" id="g-hint">저장소 이름은 영문 소문자, 숫자, 하이픈(-)만 쓰는 것이 안전합니다.</p>
+    <div class="btnrow"><button class="btn solid" id="g-copy" type="button">주소 복사</button><a class="btn" id="g-open" href="#" target="_blank" rel="noopener">주소 열어 보기 ↗</a></div>
+  </div>
+  <h3>주소가 열리지 않을 때</h3>
+  <div class="trouble">
+    <div><b>404 오류</b><span>확인할 것</span><p>파일 이름이 정확히 index.html?</p><span>해결</span><p>1~2분 뒤 새로고침</p></div>
+    <div><b>화면이 깨짐</b><span>확인할 것</span><p>코드가 &lt;/html&gt;까지 왔나?</p><span>해결</span><p>“코드 전체를 다시 줘”</p></div>
+    <div><b>수정이 안 보임</b><span>확인할 것</span><p>Commit을 눌렀나?</p><span>해결</span><p><kbd>Ctrl</kbd>+<kbd>F5</kbd> (Mac은 <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>)</p></div>
+  </div>
+  <p class="note">고칠 때는 수정한 index.html을 같은 방법으로 다시 올리면 1~2분 뒤 반영됩니다. 막히면 손을 들어 주세요. 옆 사람의 화면도 좋은 교재입니다.</p>
+  <div class="warn"><b>Public 저장소는 전부 공개됩니다.</b> 개인정보·내부 자료·API 키는 넣지 않습니다.</div>
+</section>
+
+<!-- 정리 -->
+<section id="s-end" data-name="공유·정리" hidden>
+  <div class="eyebrow">갤러리와 정리</div>
+  <h2>우리가 만든 도구 갤러리</h2>
+  <div class="padlet" data-padlet="3"><div><b>패들렛 ③ 갤러리</b><br><small class="lead">도구 이름 · 주소 · 줄일 수 있는 시간 한 줄</small></div></div>
+  <button class="chip-copy" id="copyGallery" type="button"><span>패들렛에 붙일 한 줄 만들어 복사</span><em>복사</em></button>
+  <div class="block"><h3>30초 시연 순서</h3>
+    <ul class="check"><li><span><b>도구 이름</b> → 어떤 업무를 줄이는지</span></li><li><span><b>주소 열기</b> → 한 번 직접 써 보이기</span></li><li><span><b>다음 단계</b> → 더 넣고 싶은 기능 하나</span></li></ul>
+  </div>
+  <h3>공개 도구 안전 3원칙</h3>
+  <div class="rules">
+    <div><b>입력</b><span>실습과 공개 도구에는 가상 데이터만</span></div>
+    <div><b>공개</b><span>Public 저장소에 개인정보·API 키는 올리지 않는다</span></div>
+    <div><b>책임</b><span>도구 결과는 참고, 판단은 지침과 담당자가</span></div>
+  </div>
+  <h3>돌아가서, 학교와 함께</h3>
+  <p class="lead">담당 학교에 줄 수 있는 도구 하나를 생각해 보세요. 교육전문직원이 만든 도구 하나가 여러 학교의 시간을 함께 줄입니다.</p>
+  <pre class="prompt"><span class="blank">【연구학교 운영 보고서】</span> 항목을 넣으면 빠진 항목을 체크리스트로 알려 주는 웹페이지를 만들어줘. 항목은 지침 그대로 쓰고, 없는 기준은 추가하지 마.</pre>
+  <details>
+    <summary>오늘 쓴 프롬프트 모아보기</summary>
+    <div class="in" id="allPrompts"></div>
+  </details>
+  <p class="note">이 페이지에 입력한 내용은 지금 쓰는 브라우저에만 저장되며, 어디로도 전송되지 않습니다. 예시는 모두 연수용 가상 사례입니다.</p>
+</section>
+
+<div class="pager"><button id="prev" type="button">← 이전</button><button id="next" type="button">다음 →</button></div>
+</div></main>
+
+<script>
+/* 패들렛 주소는 강사가 만든 뒤 여기에 넣습니다 */
+const PADLET = { 1: "", 3: "" };
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k){try{return localStorage.getItem("esa-"+k)||""}catch(e){return ""}},set(k,v){try{localStorage.setItem("esa-"+k,v)}catch(e){}}};
+
+/* 단계 이동 */
+const sections=$$("main section"), nav=$("#nav");
+let cur=0;
+sections.forEach((s,i)=>{const b=document.createElement("button");b.type="button";b.textContent=s.dataset.name;b.onclick=()=>go(i);nav.appendChild(b)});
+function go(i,keep){cur=Math.max(0,Math.min(sections.length-1,i));
+  sections.forEach((s,j)=>s.hidden=j!==cur);
+  [...nav.children].forEach((b,j)=>b.setAttribute("aria-current",j===cur));
+  nav.children[cur].scrollIntoView({inline:"center",block:"nearest"});
+  $("#prev").disabled=cur===0; $("#next").disabled=cur===sections.length-1;
+  $("#prev").textContent="← "+(sections[cur-1]?.dataset.name||"");
+  $("#next").textContent=(sections[cur+1]?.dataset.name||"")+" →";
+  if(!keep)window.scrollTo(0,0); store.set("step",cur)}
+$("#prev").onclick=()=>go(cur-1); $("#next").onclick=()=>go(cur+1);
+
+/* 복사 */
+function copy(text,btn,labelEl){
+  const el=labelEl||btn;
+  const ok=()=>{const old=el.dataset.old||el.textContent;el.dataset.old=old;el.textContent="복사됨";btn.classList.add("done");setTimeout(()=>{el.textContent=old;btn.classList.remove("done")},1600)};
+  const fallback=()=>{const t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}t.remove()};
+  try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(e){fallback()}
+}
+const textOf=pre=>{const c=pre.cloneNode(true);c.querySelectorAll("button").forEach(b=>b.remove());return c.textContent.trim()};
+function addCopy(pre){if(pre.querySelector(".copy"))return;const b=document.createElement("button");b.type="button";b.className="copy";b.textContent="복사";b.onclick=()=>copy(textOf(pre),b);pre.appendChild(b)}
+$$("pre.prompt:not(#myReq):not(#mainPrompt)").forEach(addCopy);
+$$(".chip-copy[data-text]").forEach(b=>b.onclick=()=>copy(b.dataset.text,b,b.querySelector("em")));
+
+/* 실습 1: 내 요청문 */
+const F={what:"#f-what",who:"#f-who",in:"#f-in",out:"#f-out",rule:"#f-rule"};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function val(k){return $(F[k]).value.trim()}
+function reqText(){
+  const w=val("what").replace(/[.。]$/,"");
+  const what=w?w+(/야$/.test(w)?".":"야."):"【어떤 일을 하는 웹페이지인지】";
+  return "경북교육청 장학사의 업무 도구를 만들어줘.\n"+what+"\n- 대상: "+(val("who")||"【누가 쓰는지】")+"\n- 입력: "+(val("in")||"【무엇을 넣는지】")+"\n- 출력: "+(val("out")||"【무엇이 나와야 하는지】")+"\n- 규칙: "+(val("rule")||"【판단 기준, 지침 문장 그대로】")+"\n예시 데이터 5줄을 넣어 바로 시험할 수 있게 해줘.";
+}
+const hasMine=()=>Object.keys(F).some(k=>val(k));
+function renderReq(){
+  const pre=$("#myReq");
+  pre.innerHTML=esc(reqText()).replace(/【[^】]*】/g,m=>'<span class="blank">'+m+'</span>');
+  const b=document.createElement("button");b.type="button";b.className="copy";b.textContent="내 요청문 복사";b.onclick=()=>copy(reqText(),b);pre.appendChild(b);
+  renderMain();
+}
+Object.entries(F).forEach(([k,s])=>{const el=$(s);el.value=store.get("f-"+k);el.addEventListener("input",()=>{store.set("f-"+k,el.value);renderReq()})});
+
+/* 예시 탭 */
+$$("#t1 button").forEach(b=>b.onclick=()=>{
+  $$("#t1 button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  $$("#s-1 [data-pane]").forEach(p=>p.hidden=p.dataset.pane!==b.dataset.k)});
+$("#useEx").onclick=()=>{
+  const k=$("#t1 [aria-selected=true]").dataset.k, t=textOf($(`pre[data-ex="${k}"]`)).split("\n");
+  const pick=p=>(t.find(l=>l.startsWith(p))||"").slice(p.length).replace(/^【|】$/g,"");
+  const vals={what:t[1].replace(/야\.$/,""),who:pick("- 대상: "),in:pick("- 입력: "),out:pick("- 출력: "),rule:pick("- 규칙: ")};
+  Object.entries(vals).forEach(([key,v])=>{$(F[key]).value=v;store.set("f-"+key,v)});
+  renderReq(); $("#form").scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+/* 실습 2: 메인 프롬프트 */
+const MAIN_HEAD="너는 경상북도교육청 교육전문직원의 업무 도구를 만드는 개발자야. 아래 요청문대로 동작하는 웹페이지를 index.html 파일 하나로 만들어줘.\n\n";
+const MAIN_TAIL="\n\n조건: HTML·CSS·JavaScript를 한 파일에 담고, 서버나 로그인 없이 브라우저에서만 동작하게 해줘.\n입력한 데이터는 어디에도 저장하거나 전송하지 마. 화면은 한글로, 맨 위에 사용법 안내를 넣어줘.\n예시 데이터를 넣어 바로 시험할 수 있게 하고, 완성된 코드 전체를 한 번에 보여줘.";
+function renderMain(){
+  const pre=$("#mainPrompt");
+  pre.querySelectorAll("button").forEach(b=>b.remove());
+  const b1=document.createElement("button");b1.type="button";b1.className="copy";b1.textContent="복사";
+  b1.onclick=()=>copy(MAIN_HEAD+"【실습 1에서 쓴 요청문 붙여넣기】"+MAIN_TAIL,b1);
+  pre.appendChild(b1);
+  if(hasMine()){const b2=document.createElement("button");b2.type="button";b2.className="copy alt";b2.textContent="내 요청문 넣어 복사";
+    b2.onclick=()=>copy(MAIN_HEAD+reqText()+MAIN_TAIL,b2);pre.appendChild(b2)}
+}
+
+/* 실습 3: 내 주소 */
+const gid=$("#g-id"), grepo=$("#g-repo");
+function renderUrl(){
+  const id=gid.value.trim().toLowerCase(), repo=grepo.value.trim();
+  const u="https://"+(id||"【아이디】")+".github.io/"+(repo||"【저장소이름】")+"/";
+  $("#g-url").innerHTML=esc(u).replace(/【[^】]*】/g,m=>'<span class="blank">'+m+'</span>');
+  const ok=id&&repo; $("#g-open").href=ok?u:"https://github.com/";
+  const bad=repo&&!/^[a-z0-9-]+$/.test(repo);
+  $("#g-hint").textContent=bad?"영문 소문자, 숫자, 하이픈(-)만 쓰는 것이 안전합니다. 대문자·한글·공백은 피하세요.":"저장소 이름은 영문 소문자, 숫자, 하이픈(-)만 쓰는 것이 안전합니다.";
+  $("#g-hint").style.color=bad?"var(--stamp)":"";
+  store.set("gid",gid.value);store.set("grepo",grepo.value);return u;
+}
+gid.value=store.get("gid");grepo.value=store.get("grepo");
+[gid,grepo].forEach(el=>el.addEventListener("input",renderUrl));
+$("#g-copy").onclick=e=>copy(renderUrl(),e.currentTarget);
+
+/* 정리: 갤러리 한 줄 */
+$("#copyGallery").onclick=e=>{const b=e.currentTarget;
+  const name=val("what")||"【도구 이름】", u=renderUrl();
+  copy(name+" · "+u+" · 줄일 수 있는 시간: 【 】",b,b.querySelector("em"))};
+
+/* 패들렛 */
+$$("[data-padlet]").forEach(el=>{const u=PADLET[el.dataset.padlet];
+  el.insertAdjacentHTML("beforeend",u?`<a href="${u}" target="_blank" rel="noopener">열기 ↗</a>`:`<span class="soon">강의 당일 공개</span>`)});
+
+/* 모아보기 */
+const all=$("#allPrompts");
+[["실습 1 예시 A · 제출 현황 집계기",()=>textOf($('pre[data-ex="a"]'))],["실습 1 예시 B · 심사 점수 집계표",()=>textOf($('pre[data-ex="b"]'))],["실습 1 예시 C · 행사 D-day 계산기",()=>textOf($('pre[data-ex="c"]'))],["실습 1 · 내 요청문",reqText],["실습 2 · 도구 만들기 (내 요청문 포함)",()=>MAIN_HEAD+(hasMine()?reqText():"【실습 1에서 쓴 요청문 붙여넣기】")+MAIN_TAIL]].forEach(([t,fn])=>{
+  const b=document.createElement("button");b.type="button";b.className="chip-copy";b.innerHTML="<span>"+t+"</span><em>복사</em>";b.onclick=()=>copy(fn(),b,b.querySelector("em"));all.appendChild(b)});
+
+renderReq(); renderUrl();
+const h=location.hash.replace("#",""), hi=sections.findIndex(s=>s.id===h);
+go(hi>=0?hi:(+store.get("step")||0));
+</script>
+</body>
+</html>
